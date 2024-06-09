@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkcalendar import DateEntry
+from tkinter import ttk
 
 
 # variaveis de altura e largura padrao
@@ -9,9 +10,14 @@ height = 50
 width = 250
 
 # Create the main window
+windowx = 1000
+windowy = 400
 root = tk.Tk()
 root.title("Interface v1")
-root.geometry("1000x400")
+root.geometry(f"{windowx}x{windowy}")
+bg = tk.Label(bg="white", bd=1, relief="solid")
+bg.place(x=10 , y=10 , width=980, height=380)
+
 
 
 # parte do nome
@@ -52,8 +58,29 @@ data_text = tk.Label(text="data de vencimento", fg="black", bd=2, relief="solid"
 data_entry = DateEntry(root, width=12, background='darkblue', foreground='white', borderwidth=2, bg="red")
 data_text.place(x=200, y=dataentryH)
 data_entry.place(x=200, y=dataentryH + 25)
+root.update_idletasks()
 
 # selector of items
+def on_select(event):
+    selected_value = combo.get()
+    #selection_label.config(text=f"Selected: {selected_value}")
+
+# Create a Combobox widget
+combo = ttk.Combobox(root, values=["Option 1", "Option 2", "Option 3", "Option 4"], state="readonly") 
+combo.set("Select an option")  # Set the default value
+combo.place(x = x, y = data_entry.winfo_y() + 40)
+
+combo.bind("<<ComboboxSelected>>", on_select)
+
+# window of changes
+command_window = tk.Label(bg="black")
+command_window.place(x = button_bar.winfo_x() + button_bar.winfo_width() + 10, y = 13, height=bg.winfo_height() - 6, width=280)
+
+#numero da nota
+
+#forma de pagamento
+
+#parcelas
 
 
 
