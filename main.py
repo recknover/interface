@@ -91,7 +91,7 @@ command_window = tk.Label(bg="black")
 command_window.place(x = button_bar.winfo_x() + button_bar.winfo_width() + 10, y = 13, height=bg.winfo_height() - 6, width=240)
 
 #numero da nota
-
+nf_entry = tk.Entry()
 
 
 #forma de pagamento
