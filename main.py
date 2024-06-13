@@ -85,13 +85,18 @@ combo = ttk.Combobox(root, values=items, state="readonly")
 combo.set("Selecione")  # Set the default value
 combo.place(x = x, y = texto_seletor.winfo_y() + 25, width=data_entryE.winfo_width())
 combo.bind("<<ComboboxSelected>>", on_select)
+root.update_idletasks()
 
 # window of changes
 command_window = tk.Label(bg="black")
 command_window.place(x = button_bar.winfo_x() + button_bar.winfo_width() + 10, y = 13, height=bg.winfo_height() - 6, width=240)
 
 #numero da nota
-nf_entry = tk.Entry()
+nf_entry_text = tk.Label(text="numero NF", fg="black", bd=2, relief="solid", bg="lightgray")
+nf_entry = tk.Entry(width=50)
+nf_entry_text.place(x=x, y = combo.winfo_y() + 40, width=combo.winfo_width() + 10)
+root.update_idletasks()
+nf_entry.place(x=x, y=nf_entry_text.winfo_y() + 25)
 
 
 #forma de pagamento
