@@ -14,10 +14,11 @@ items = leitor("items.txt")
 
 
 # variaveis de altura e largura padrao
-x = 50
-y = 50
-height = 50
-width = 250
+x = 50 #50
+y = 50 #50
+height = 50 #50
+width = 250 #250
+ 
 
 # Create the main window
 windowx = 1000
@@ -59,6 +60,7 @@ data_entryE = DateEntry(root, width=12, background='darkblue', foreground='white
 data_textE.place(x=50, y=dataentryH)
 root.update_idletasks()
 data_entryE.place(x=50, y=dataentryH + 25, width=data_textE.winfo_width())
+root.update_idletasks()
 
 
 # seletor de datas direito
@@ -71,37 +73,50 @@ root.update_idletasks()
 data_entryD.place(x=200, y=dataentryH + 25, width=data_textD.winfo_width())
 root.update_idletasks()
 
+
 # selector of items
 def on_select(event):
     selected_value = combo.get()
     #selection_label.config(text=f"Selected: {selected_value}")
 
+
 # Create a Combobox widget com nome
 texto_seletor = tk.Label(text="seletor", fg="black", bd=2, relief="solid", bg="lightgray")
-texto_seletor.place(x=x, y=data_entryE.winfo_y() + 40)
+texto_seletor.place(x=x, y=data_entryE.winfo_y() + 40, width=data_entryE.winfo_width() + 10)
 root.update_idletasks()
 
 combo = ttk.Combobox(root, values=items, state="readonly") 
 combo.set("Selecione")  # Set the default value
-combo.place(x = x, y = texto_seletor.winfo_y() + 25, width=data_entryE.winfo_width())
+combo.place(x = x, y = texto_seletor.winfo_y() + 23, width=data_entryE.winfo_width() + 10)
+root.update_idletasks()
 combo.bind("<<ComboboxSelected>>", on_select)
 root.update_idletasks()
+
 
 # window of changes
 command_window = tk.Label(bg="black")
 command_window.place(x = button_bar.winfo_x() + button_bar.winfo_width() + 10, y = 13, height=bg.winfo_height() - 6, width=240)
 
+
 #numero da nota
 nf_entry_text = tk.Label(text="numero NF", fg="black", bd=2, relief="solid", bg="lightgray")
-nf_entry = tk.Entry(width=50)
-nf_entry_text.place(x=x, y = combo.winfo_y() + 40, width=combo.winfo_width() + 10)
+nf_entry = tk.Entry(width=17, bd=2, relief="solid")
+nf_entry.place(x=data_entryD.winfo_x(), y=texto_seletor.winfo_y() + 23)
 root.update_idletasks()
-nf_entry.place(x=x, y=nf_entry_text.winfo_y() + 25)
+nf_entry_text.place(x=data_entryD.winfo_x(), y = texto_seletor.winfo_y(), width=nf_entry.winfo_width())
 
 
 #forma de pagamento
+payment_label = tk.Label(text="forma de pagamento", fg="black", bd=2, relief="solid", bg="lightgray")
+payment_label.place(x=x, y=combo.winfo_y() + 40, width=120)
+root.update_idletasks()
+payments = [1, 2, 3 ,4 ]
+payment_selector = ttk.Combobox(root, values=payments, state="readonly")
+payment_selector.set("selecione")
+payment_selector.place(x=x, y=payment_label.winfo_y()+23, width=120)
 
 #parcelas
+
 
 
 
