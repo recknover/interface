@@ -115,10 +115,29 @@ payment_selector = ttk.Combobox(root, values=payments, state="readonly")
 payment_selector.set("selecione")
 payment_selector.place(x=x, y=payment_label.winfo_y()+23, width=120)
 
+
 #parcelas
+parcelas_text = tk.Label(text="parcelas", fg="black", bg="lightgray", bd=2, relief="solid")
+parcelas_text.place(x=nf_entry.winfo_x(), y=payment_label.winfo_y(), width=108)
+'''
+selecionar quantidade de parcelas, e frequencia 7/14/21/28
+valores predefinidos
+cada valor é uma funcao, dependendo da funcao ela copia os outros valores e adiciona ao banco de dados
+se nf tem 3 parcelas padrao 7/14/21 selecionar "padrao 3x" copiar: nome, valor da parcela, numero da nota, forma de pagamento
+pegar a data de emissao, e acrescendar os dias das parcelas de acordo com o modelo
+1x 7d
+1x 14d
+1x 21d
+1x 28d
+2x 7/14d
+2x 14/21d
+2x 21/28d
+2x 7/21d
+3x 7/14/21d
+4x 7/14/21/28d
 
 
 
-
+'''
 # Start the Tkinter event loop
 root.mainloop()
