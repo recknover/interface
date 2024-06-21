@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkcalendar import DateEntry
 from tkinter import ttk
+import conection
+import sqlite3
 
 
 #leitor de listas
@@ -117,27 +119,33 @@ payment_selector.place(x=x, y=payment_label.winfo_y()+23, width=120)
 
 
 #parcelas
+parcelas = ["1x 7d", "1x 14d", "1x 21d", "2x 14/21d", "2x 14/21d", "3x 7/14/21d"]
 parcelas_text = tk.Label(text="parcelas", fg="black", bg="lightgray", bd=2, relief="solid")
 parcelas_text.place(x=nf_entry.winfo_x(), y=payment_label.winfo_y(), width=108)
-'''
-selecionar quantidade de parcelas, e frequencia 7/14/21/28
-valores predefinidos
-cada valor é uma funcao, dependendo da funcao ela copia os outros valores e adiciona ao banco de dados
-se nf tem 3 parcelas padrao 7/14/21 selecionar "padrao 3x" copiar: nome, valor da parcela, numero da nota, forma de pagamento
-pegar a data de emissao, e acrescendar os dias das parcelas de acordo com o modelo
-1x 7d
-1x 14d
-1x 21d
-1x 28d
-2x 7/14d
-2x 14/21d
-2x 21/28d
-2x 7/21d
-3x 7/14/21d
-4x 7/14/21/28d
+root.update_idletasks()
+parcelas_combobox = ttk.Combobox(root, values=parcelas, state="readonly")
+parcelas_combobox.set("selecione")
+parcelas_combobox.place(x = parcelas_text.winfo_x(), y = parcelas_text.winfo_y() + 23, width=parcelas_text.winfo_width())
+
+#acessando banco de dados
+
+#id, nome, nf, data emissao, data vencimento, tipo de produto
+
+def db_create():
+    file ="main.db"
+    open(file, "w")
+    conection.connection(file)
+    create = ''' CREATE TABLE main(
+                                    id INTERGER PRIMARY KEY AUTOINCREMENT, 
+                                    nome VARCHAR(64), 
+                                    nf INTERGER,
+                                    dataEmissao VARCHAR(64), 
+                                    dataVencimento VARCHAR(64) 
+                                    tipo_produto VARCHAR(64)
+                                    )
+            '''
+    conection.execute(create)
 
 
-
-'''
 # Start the Tkinter event loop
 root.mainloop()
