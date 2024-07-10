@@ -2,7 +2,7 @@ import tkinter as tk
 from tkcalendar import DateEntry
 from tkinter import ttk
 import conection
-import sqlite3
+
 
 
 #leitor de listas
@@ -127,24 +127,18 @@ parcelas_combobox = ttk.Combobox(root, values=parcelas, state="readonly")
 parcelas_combobox.set("selecione")
 parcelas_combobox.place(x = parcelas_text.winfo_x(), y = parcelas_text.winfo_y() + 23, width=parcelas_text.winfo_width())
 
-#acessando banco de dados
-
 #id, nome, nf, data emissao, data vencimento, tipo de produto
 
-def db_create():
-    file ="main.db"
-    open(file, "w")
-    conection.connection(file)
-    create = ''' CREATE TABLE main(
-                                    id INTERGER PRIMARY KEY AUTOINCREMENT, 
-                                    nome VARCHAR(64), 
-                                    nf INTERGER,
-                                    dataEmissao VARCHAR(64), 
-                                    dataVencimento VARCHAR(64) 
-                                    tipo_produto VARCHAR(64)
-                                    )
-            '''
-    conection.execute(create)
+db = conection.db_create()
+
+
+
+
+
+
+
+
+
 
 
 # Start the Tkinter event loop
