@@ -75,13 +75,6 @@ root.update_idletasks()
 data_entryD.place(x=200, y=dataentryH + 25, width=data_textD.winfo_width())
 root.update_idletasks()
 
-
-# selector of items
-def on_select(event):
-    selected_value = combo.get()
-    #selection_label.config(text=f"Selected: {selected_value}")
-
-
 # Create a Combobox widget com nome
 texto_seletor = tk.Label(text="seletor", fg="black", bd=2, relief="solid", bg="lightgray")
 texto_seletor.place(x=x, y=data_entryE.winfo_y() + 40, width=data_entryE.winfo_width() + 10)
@@ -91,13 +84,6 @@ combo = ttk.Combobox(root, values=items, state="readonly")
 combo.set("Selecione")  # Set the default value
 combo.place(x = x, y = texto_seletor.winfo_y() + 23, width=data_entryE.winfo_width() + 10)
 root.update_idletasks()
-combo.bind("<<ComboboxSelected>>", on_select)
-root.update_idletasks()
-
-
-# window of changes
-command_window = tk.Label(bg="black")
-command_window.place(x = button_bar.winfo_x() + button_bar.winfo_width() + 10, y = 13, height=bg.winfo_height() - 6, width=240)
 
 
 #numero da nota
@@ -117,7 +103,6 @@ payment_selector = ttk.Combobox(root, values=payments, state="readonly")
 payment_selector.set("selecione")
 payment_selector.place(x=x, y=payment_label.winfo_y()+23, width=120)
 
-
 #parcelas
 parcelas = ["1x 7d", "1x 14d", "1x 21d", "2x 14/21d", "2x 14/21d", "3x 7/14/21d"]
 parcelas_text = tk.Label(text="parcelas", fg="black", bg="lightgray", bd=2, relief="solid")
@@ -127,15 +112,29 @@ parcelas_combobox = ttk.Combobox(root, values=parcelas, state="readonly")
 parcelas_combobox.set("selecione")
 parcelas_combobox.place(x = parcelas_text.winfo_x(), y = parcelas_text.winfo_y() + 23, width=parcelas_text.winfo_width())
 
-#id, nome, nf, data emissao, data vencimento, tipo de produto
+# window of changes
+command_window = tk.Label(bg="black")
+command_window.place(x = button_bar.winfo_x() + button_bar.winfo_width() + 10, y = 13, height=bg.winfo_height() - 6, width=240)
+root.update_idletasks()
+command_text = tk.Label(text="Loading", bg="black", fg="green")
+command_text.place(x = command_window.winfo_x(), y = command_window.winfo_y())
 
-db = conection.db_create()
+#criar banco de dados
+db = conection.db_create("main")
 
+#atualizar a tela 
+def update_windowsChange(change):
+    command_text.config(change)
 
-
-
-
-
+#pegar valores de cada entrada de dados
+def get_values():
+    nomeValor = input_dados.get()
+    dataEmissao = data_entryD.get_date()
+    dataVencimento = data_entryE.get_date()
+    seletor = combo.get()
+    nf = nf_entry.get()
+    formaDePagamento = payment_selector.get()
+    parcelas = parcelas_combobox.get()
 
 
 

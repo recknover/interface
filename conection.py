@@ -3,8 +3,13 @@ import sqlite3
 from sqlite3 import Error
 import os
 
-def db_create():
-    file ="main.db"
+
+#id, nome, nf, data emissao, data vencimento, tipo de produto
+
+
+#cria o banco de dados
+def db_create(nome):
+    file = nome + ".db"
     open(file, "w")
     if os.path.exists(file):
         pass
