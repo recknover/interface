@@ -39,7 +39,7 @@ class app:
 
     #list of widgets to create
     def createWidgets(self, root):
-        self.nome_texto = tk.Label(text="nome", bg="lightgray", fg="black", bd=5, relief="solid")
+        self.menu = tk.Label(text="nome", bg="lightgray", fg="black", bd=3, relief="solid")
         self.input_dados_text = tk.Label(text="add dados abaixo", fg="black", bg="lightgray", bd=2, relief="solid")
         self.data_textD = tk.Label(text="data de vencimento", fg="black", bd=2, relief="solid", bg="lightgray")
         self.data_textE = tk.Label(text="data de emissao", fg="black", bd=2, relief="solid", bg="lightgray")
@@ -49,37 +49,50 @@ class app:
         self.parcelas_text = tk.Label(text="parcelas", fg="black", bg="lightgray", bd=2, relief="solid")
         self.command_window = tk.Label(bg="black")
         self.command_text = tk.Label(text="Loading", bg="black", fg="green")
+        self.texto_combo = tk.Label(text="seletor", fg="black", bd=2, relief="solid", bg="lightgray")
+
         self.input_dados = tk.Entry(text="placeholder", width=100, bd=2, relief="solid")
         self.nf_entry = tk.Entry(width=17, bd=2, relief="solid")
-        self.button_bar = ttk.Button(text="send", command="#")
+
+        self.button_send = ttk.Button(text="send", command="#")
+
         self.data_entryE = DateEntry(root, width=12, background='darkblue', foreground='white', borderwidth=2, bg="red")
         self.data_entryD = DateEntry(root, width=12, background='darkblue', foreground='white', borderwidth=2, bg="red")
+
         self.combo = ttk.Combobox(root, values=self.items, state="readonly") 
         self.parcelas_combobox = ttk.Combobox(root, values=self.parcelas, state="readonly")
         self.payment_selector = ttk.Combobox(root, values=self.payments, state="readonly")
+
         self.payment_selector.set("selecione")  
         self.combo.set("Selecione") 
         self.parcelas_combobox.set("selecione")
 
     #list of widget positions
     def placeWidgets(self):
-        self.nome_texto.place(x=self.x, y=self.y, width=self.width, height=self.height)
-        self.input_dados_text.place(x=50, y=50, width=100 ,height=20)
-        self.input_dados.place(x=10, y=10)
-        self.button_bar.place(x = 50, y = 50)
-        self.data_textE.place(x=50, y=50)
-        self.data_entryE.place(x=50, y=50 + 25, width=self.data_textE.winfo_width())
-        self.data_textD.place(x=200, y=50)
-        self.data_entryD.place(x=200, y=50 + 25, width=self.data_textD.winfo_width())
-        self.combo.place(x = self.x, y = self.texto_seletor.winfo_y() + 23, width=self.data_entryE.winfo_width() + 10)
+        self.menu.place(x=0, y=0, width=self.windowx - 200, height=50)
+        self.input_dados_text.place(x=10, y=60, width=100 ,height=20)
+        self.input_dados.place(x=10, y=85 )
+        self.data_textE.place(x=10, y=150, width=120)
+        self.data_entryE.place(x=10, y=175, width=120)
+        self.data_textD.place(x=200, y=150, width=120)
+        self.data_entryD.place(x=200, y=175, width=120)
+        self.texto_combo.place(x=10, y=215, width=120)
+        self.combo.place(x=10, y=240, width=120)
+        self.nf_entry.place(x=self.data_entryD.winfo_x(), y=self.texto_seletor.winfo_y() + 23)
+        self.nf_entry_text.place(x=self.data_entryD.winfo_x(), y = self.texto_seletor.winfo_y(), width=self.nf_entry.winfo_width())
+        """
+        
+        
         self.nf_entry.place(x=self.data_entryD.winfo_x(), y=self.texto_seletor.winfo_y() + 23)
         self.nf_entry_text.place(x=self.data_entryD.winfo_x(), y = self.texto_seletor.winfo_y(), width=self.nf_entry.winfo_width())
         self.payment_label.place(x=self.x, y=self.combo.winfo_y() + 40, width=120)
         self.payment_selector.place(x=self.x, y=self.payment_label.winfo_y()+23, width=120)
         self.parcelas_text.place(x=self.nf_entry.winfo_x(), y=self.payment_label.winfo_y(), width=108)
         self.parcelas_combobox.place(x = self.parcelas_text.winfo_x(), y = self.parcelas_text.winfo_y() + 23, width=self.parcelas_text.winfo_width())
-        self.command_window.place(x = self.button_bar.winfo_x() + self.button_bar.winfo_width() + 10, y = 13, height=self.nome.winfo_height() - 6, width=240)
+        self.command_window.place(x = self.button_bar.winfo_x() + self.button_bar.winfo_width() + 10, y = 13, height=self.menu.winfo_height() - 6, width=240)
         self.command_text.place(x = self.command_window.winfo_x(), y = self.command_window.winfo_y())
+        self.button_bar.place(x = 50, y = 50)
+        """
 
     #atualizar a tela 
     def update_windowsChange(self, change):
