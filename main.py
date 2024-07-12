@@ -137,8 +137,5 @@ def get_values():
     parcelas = parcelas_combobox.get()
 
 
-
-
-
 # Start the Tkinter event loop
 root.mainloop()
