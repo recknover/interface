@@ -22,7 +22,6 @@ class app:
         self.windowx = 1000
         self.windowy = 400
         self.configureWindow(root)
-        
 
         # Default dimensions
         self.x = 50
