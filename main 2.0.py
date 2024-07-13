@@ -56,7 +56,7 @@ class app:
         self.input_dados = tk.Entry(text="placeholder", width=100, bd=2, relief="solid")
         self.nf_entry = tk.Entry(width=19, bd=2, relief="solid",)
         #buttons
-        self.button_send = ttk.Button(text="send", command="#")
+        self.button_send = ttk.Button(text="send", command=self.get_values)
         #entry dates
         self.data_entryE = DateEntry(root, width=12, background='darkblue', foreground='white', borderwidth=2, bg="red")
         self.data_entryD = DateEntry(root, width=12, background='darkblue', foreground='white', borderwidth=2, bg="red")
@@ -92,9 +92,32 @@ class app:
 
     #atualizar a tela 
     def update_windowsChange(self, change):
-            self.command_text.config(change)
+            self.command_text.config(text=change)
+
+    def get_values(self):
+        nomeValor = self.input_dados.get()
+        dataEmissao = self.data_entryD.get_date()
+        dataVencimento = self.data_entryE.get_date()
+        seletor = self.combo.get()
+        nf = self.nf_entry.get()
+        formaDePagamento = self.payment_selector.get()
+        parcelas = self.parcelas_combobox.get()
+        values = [nomeValor, dataEmissao, dataVencimento, seletor, nf, formaDePagamento, parcelas]
+        print(values)
+        self.update_windowsChange(values)
+        
 
 
 root = tk.Tk()
 app = app(root)
+
+db = conection.db_create("main")
+conn = conection.connection(db)
+
+
+
+
+
+
+
 root.mainloop()
