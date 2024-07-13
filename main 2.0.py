@@ -105,6 +105,7 @@ class app:
         values = [nomeValor, dataEmissao, dataVencimento, seletor, nf, formaDePagamento, parcelas]
         print(values)
         self.update_windowsChange(values)
+        return values
         
 
 
@@ -113,8 +114,8 @@ app = app(root)
 
 db = conection.db_create("main")
 conn = conection.connection(db)
-
-
+#id, nome, nf, dataEmissao, dataVencimento, tipo_produto
+values = app.get_values()
 
 
 
