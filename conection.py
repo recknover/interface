@@ -181,6 +181,3 @@ def insert_especift(db, a):
     conn.close()
 
 #insere dados na sequencia =database(db) nome(char), nf(int), dataEmissao(data), dataVencimento(date), tipo_produto(char)
-db_teste = db_create("teste")
-insertAll(db_teste, "a", 126, "26/26/2047", "26/26/2047" , "teste")
-showValues(db_teste)
