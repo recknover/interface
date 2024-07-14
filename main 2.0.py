@@ -32,9 +32,12 @@ class app:
         #inicialize the widgets
         self.createWidgets(root)
         self.placeWidgets()
+        self.db = conection.db_create("main")
 
+    
+    #configure    
     def configureWindow(self, root):
-        root.title("Interface v1")
+        root.title("Interface v2")
         root.geometry(f"{self.windowx}x{self.windowy}")
         root.resizable(False, False)
 
@@ -56,7 +59,7 @@ class app:
         self.input_dados = tk.Entry(text="placeholder", width=100, bd=2, relief="solid")
         self.nf_entry = tk.Entry(width=19, bd=2, relief="solid",)
         #buttons
-        self.button_send = ttk.Button(text="send", command=self.get_values)
+        self.button_send = ttk.Button(text="send", command=self.enter_values)
         #entry dates
         self.data_entryE = DateEntry(root, width=12, background='darkblue', foreground='white', borderwidth=2, bg="red")
         self.data_entryD = DateEntry(root, width=12, background='darkblue', foreground='white', borderwidth=2, bg="red")
@@ -94,7 +97,8 @@ class app:
     def update_windowsChange(self, change):
             self.command_text.config(text=change)
 
-    def get_values(self):
+    #id, nome, nf, dataEmissao, dataVencimento, tipo_produto
+    def enter_values(self):
         nomeValor = self.input_dados.get()
         dataEmissao = self.data_entryD.get_date()
         dataVencimento = self.data_entryE.get_date()
@@ -105,20 +109,13 @@ class app:
         values = [nomeValor, dataEmissao, dataVencimento, seletor, nf, formaDePagamento, parcelas]
         print(values)
         self.update_windowsChange(values)
-        return values
+        conection.insertAll(self.db, values[0], values[1], values[2], values[3], values[4])
         
+
+    
+    
 
 
 root = tk.Tk()
 app = app(root)
-
-db = conection.db_create("main")
-conn = conection.connection(db)
-#id, nome, nf, dataEmissao, dataVencimento, tipo_produto
-values = app.get_values()
-
-
-
-
-
 root.mainloop()

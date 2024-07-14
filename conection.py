@@ -48,7 +48,7 @@ def return_tables(db):
     
 #retorna esquema de tables
 def return_schema(db):
-    tn = return_tables()
+    tn = return_tables(db)
     table = tn[0]
     x = rf"PRAGMA table_info('{table}')"
     conn = connection(db)
@@ -62,32 +62,37 @@ def return_schema(db):
 
 #retorna todos os valores da coluna
 def showValues(db):
-    table = return_tables()
+    table = return_tables(db)
     conn = connection(db)
     cursor = conn.cursor() 
-    data = cursor.execute(fr'select * from {table};')
+    data = cursor.execute('select * from ?',(table,))
     raw = data.fetchall()
     for i in raw:
         print(i)
     conn.close()
 
-#insere dados na sequencia =database(db), id(int), nome(char), nf(int), comprar(char)
+#insere dados na sequencia =database(db) nome, nf, dataEmissao, dataVencimento, tipo_produto
 def insertAll(db, a, b, c, d, e):
-    table = return_tables()
-    table_principal = return_schema()
-    querry = f'''insert into {table}({table_principal[0]}, {table_principal[1]}, {table_principal[2]}, {table_principal[3]}, {table_principal[4]}) 
-                values(?, ?, ?, ?, ?)''' 
-    param = a, b, c, d, e
-    print(querry)
-    conn = connection(db)
-    cursor = conn.cursor()
-    cursor.execute(querry, param)
-    conn.commit()
-    conn.close()
+    try:
+        table = return_tables(db)
+        table_principal = return_schema(db)
+        querry = rf'''insert into {table} ({table_principal[0]}, {table_principal[1]}, {table_principal[2]}, {table_principal[3]}, {table_principal[4]}) 
+                        values(?, ?, ?, ?, ?)''' 
+        param = a, b, c, d, e
+        print(querry)
+        conn = connection(db)
+        cursor = conn.cursor()
+        cursor.execute(querry, param)
+        conn.commit()
+        conn.close()
+    except sqlite3.Error as e:
+        print(f"SQLite error: {e}")
+    except Exception as e:
+        print(f"General error: {e}")
 
 #atualiza dados sequencia db = banco para acesso, param1 = coluna; param2 = valor; param3 = id
 def updateData(db, param1, param2, param3):
-    table = return_tables()
+    table = return_tables(db)
     querry = f'update {table} set {param1} = "{param2}" where id = {param3};'
     conn = connection(db)
     cursor = conn.cursor()
@@ -148,14 +153,14 @@ def update_comprar(db, param1, param2):
 #retorna tabelas de banco selecionado em formato pandas, db = banco de acesso
 def returnPd(db):
     conn = connection(db)
-    table = return_tables()
+    table = return_tables(db)
     df = pd.read_sql_query(f'select * from {table}', conn)
     conn.close()
     return df
 
 #retorna ids especificos em pandas, db = banco de acesso, id = id
 def return_x(db, id):
-    table = return_tables()
+    table = return_tables(db)
     conn = connection(db)
     df = pd.read_sql_query(f'select * from {table} where id = {id}', conn)
     conn.close()
@@ -164,7 +169,7 @@ def return_x(db, id):
 #executa querry para retornar tabelas especificas, db = banco de acesso, a = parametro
 def insert_especift(db, a):
     table = return_tables()
-    insert_schema = return_schema()
+    insert_schema = return_schema(db)
     querry = f'''insert into {table}({insert_schema[0]}) 
                 values(?)''' 
     param = a 
@@ -174,3 +179,8 @@ def insert_especift(db, a):
     cursor.execute(querry, param)
     conn.commit()
     conn.close()
+
+#insere dados na sequencia =database(db) nome(char), nf(int), dataEmissao(data), dataVencimento(date), tipo_produto(char)
+db_teste = db_create("teste")
+insertAll(db_teste, "a", 126, "26/26/2047", "26/26/2047" , "teste")
+showValues(db_teste)
