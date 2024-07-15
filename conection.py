@@ -65,7 +65,7 @@ def showValues(db):
     table = return_tables(db)
     conn = connection(db)
     cursor = conn.cursor() 
-    data = cursor.execute('select * from ?',(table,))
+    data = cursor.execute(f'select * from {table[0]}')
     raw = data.fetchall()
     for i in raw:
         print(i)
@@ -76,19 +76,18 @@ def insertAll(db, a, b, c, d, e):
     try:
         table = return_tables(db)
         table_principal = return_schema(db)
-        querry = rf'''insert into {table} ({table_principal[0]}, {table_principal[1]}, {table_principal[2]}, {table_principal[3]}, {table_principal[4]}) 
-                        values(?, ?, ?, ?, ?)''' 
-        param = a, b, c, d, e
+        querry = rf'''INSERT INTO {table[0]} ({table_principal[1]}, {table_principal[2]}, {table_principal[3]}, {table_principal[4]}, {table_principal[5]}) VALUES(?, ?, ?, ?, ?)''' 
+        param = (str(a), int(b), str(c), str(d), str(e))
         print(querry)
         conn = connection(db)
         cursor = conn.cursor()
         cursor.execute(querry, param)
         conn.commit()
         conn.close()
-    except sqlite3.Error as e:
-        print(f"SQLite error: {e}")
+    except Error as e:
+        print(e)
     except Exception as e:
-        print(f"General error: {e}")
+        print(e)
 
 #atualiza dados sequencia db = banco para acesso, param1 = coluna; param2 = valor; param3 = id
 def updateData(db, param1, param2, param3):
@@ -181,3 +180,6 @@ def insert_especift(db, a):
     conn.close()
 
 #insere dados na sequencia =database(db) nome(char), nf(int), dataEmissao(data), dataVencimento(date), tipo_produto(char)
+db_teste = db_create("teste")
+insertAll(db_teste, "a", 126, "26/26/2047", "26/26/2047" , "teste")
+showValues(db_teste)
