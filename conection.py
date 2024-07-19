@@ -11,21 +11,23 @@ import os
 def db_create(nome):
     file = nome + ".db"
     open(file, "w")
-    if os.path.exists(file):
-        pass
-    create = ''' CREATE TABLE main(
-                            id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    create = ''' CREATE TABLE IF NOT EXISTS main(
+                            id INTEGER PRIMARY KEY, 
                             nome VARCHAR(64), 
                             nf INTEGER,
-                            dataEmissao VARCHAR(64), 
-                            dataVencimento VARCHAR(64),
-                            tipo_produto VARCHAR(64)
+                            dataEmissao DATETIME,
+                            dataVencimento DATETIME,
+                            tipo_produto VARCHAR(64),
+                            forma_pagamento VARCHAR(64),
+                            parcelas VARCHAR(64)
                             )
             '''
     conn = sqlite3.connect(file)
     conn.execute(create)
     conn.close()
     return file
+
+
 
 #conexao geral
 def connection(db): 
@@ -72,12 +74,12 @@ def showValues(db):
     conn.close()
 
 #insere dados na sequencia =database(db) nome, nf, dataEmissao, dataVencimento, tipo_produto
-def insertAll(db, a, b, c, d, e):
+def insertAll(db, a, b, c, d, e, f, g):
     try:
         table = return_tables(db)
         table_principal = return_schema(db)
-        querry = rf'''INSERT INTO {table[0]} ({table_principal[1]}, {table_principal[2]}, {table_principal[3]}, {table_principal[4]}, {table_principal[5]}) VALUES(?, ?, ?, ?, ?)''' 
-        param = (str(a), int(b), str(c), str(d), str(e))
+        querry = rf'''INSERT INTO {table[0]} ({table_principal[1]}, {table_principal[2]}, {table_principal[3]}, {table_principal[4]}, {table_principal[5]}, {table_principal[6]}, {table_principal[7]}) VALUES(?, ?, ?, ?, ?, ?, ?)''' 
+        param = (a, b, c, d, e, f, g)
         print(querry)
         conn = connection(db)
         cursor = conn.cursor()
@@ -180,6 +182,3 @@ def insert_especift(db, a):
     conn.close()
 
 #insere dados na sequencia =database(db) nome(char), nf(int), dataEmissao(data), dataVencimento(date), tipo_produto(char)
-db_teste = db_create("teste")
-insertAll(db_teste, "a", 126, "26/26/2047", "26/26/2047" , "teste")
-showValues(db_teste)

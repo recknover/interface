@@ -2,6 +2,7 @@ import tkinter as tk
 from tkcalendar import DateEntry
 from tkinter import ttk
 import conection
+import os
 
 #leitor de listas
 def leitor(arquivo):
@@ -32,9 +33,12 @@ class app:
         #inicialize the widgets
         self.createWidgets(root)
         self.placeWidgets()
-        self.db = conection.db_create("main")
+        if os.path.exists("main.db"):
+            pass
+        else:          
+            self.db = conection.db_create("main")
 
-    
+
     #configure    
     def configureWindow(self, root):
         root.title("Interface v2")
@@ -109,13 +113,8 @@ class app:
         values = [nomeValor, dataEmissao, dataVencimento, seletor, nf, formaDePagamento, parcelas]
         print(values)
         self.update_windowsChange(values)
-        conection.insertAll(self.db, values[0], values[1], values[2], values[3], values[4])
+        conection.insertAll(self.db, values[0], values[1], values[2], values[3], values[4], values[5], values[6])
         
-
-    
-    
-
-
 root = tk.Tk()
 app = app(root)
 root.mainloop()
