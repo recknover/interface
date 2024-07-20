@@ -4,6 +4,8 @@ from tkinter import ttk
 import conection
 import os
 
+#----------------------coisas de fora----------------------------------------------------------------------------------------------------------------------------
+
 #leitor de listas
 def leitor(arquivo):
     arquivo = open(f"{arquivo}", "r")
@@ -11,6 +13,9 @@ def leitor(arquivo):
     for i in arquivo:
         items.append(i)
     return items
+#----------------------coisas de fora----------------------------------------------------------------------------------------------------------------------------
+
+#------------------------------init----------------------------------------------------------------------------------------------------------------------------
 
 class app:
     def __init__(self, root):
@@ -29,24 +34,98 @@ class app:
         self.y = 50
         self.height = 50
         self.width = 250
-        
+
         #inicialize the widgets
-        self.createWidgets(root)
-        self.placeWidgets()
+        self.InsertWidgets(root)
+        self.createMenu_bar(root)
         if os.path.exists("main.db"):
             pass
         else:          
             self.db = conection.db_create("main")
+#------------------------------init----------------------------------------------------------------------------------------------------------------------------
+
+#----------------menu bar functions----------------------------------------------------------------------------------------------------------------------------
+
+    #createMenu_bar
+    def createMenu_bar(self, root):
+        self.menubar = tk.Menu(root)
+        self.createFileMenu(root)
+        self.createEditMenu()
+        self.createHelpMenu()
+        # coloca na tela
+        root.config(menu=self.menubar)
+
+    def createFileMenu(self, root):
+        self.file_menu = tk.Menu(self.menubar, tearoff=0)
+        self.file_menu.add_command(label="Open", command='#')
+        self.file_menu.add_separator()
+        self.file_menu.add_command(label="Exit", command=root.quit)
+        # adiciona na tela, qualquer coisa nova colocar na parte de cima
+        self.menubar.add_cascade(label="File", menu=self.file_menu)
+
+    def createEditMenu(self):
+        self.edit_menu = tk.Menu(self.menubar, tearoff=0)
+        self.edit_menu.add_command(label="return values", command='#')
+        self.edit_menu.add_separator()
+        self.edit_menu.add_command(label="delete values", command='#')
+        self.edit_menu.add_separator()
+        self.edit_menu.add_command(label="insert values", command='#')
+        # adiciona na tela, qualquer coisa nova colocar na parte de cima
+        self.menubar.add_cascade(label="Windows", menu=self.edit_menu)
+
+    def createHelpMenu(self):
+        self.help_menu = tk.Menu(self.menubar, tearoff=0)
+        self.help_menu.add_command(label="About", command="#")
+        # adiciona na tela, qualquer coisa nova colocar na parte de cima
+        self.menubar.add_cascade(label="Help", menu=self.help_menu)
 
 
-    #configure    
+#----------------menu bar functions----------------------------------------------------------------------------------------------------------------------------------
+
+#----------------create and place widgets----------------------------------------------------------------------------------------------------------------------------
+        '''
+        place_foget()
+        criar outros widgets definir eles como
+        #vazio pra resertar a tela
+        (label vazia) ou algum comando pra resetar itens da tela
+        #inserir dados
+        (apenas renomear as funções que eu ja tenho)
+        #retornar dados
+        (label para mostrar a saida dos dados)(entry pra selecionar algo especifico de uma tabela)(botao pra mandar o comando)
+        #deletar dados
+        (label pra mostrar os dados)(entry pra selecionar id pra ser deletado)
+        '''
+    def InsertWidgets(self, root):
+        self.createInsertWidgets(root)
+        self.placeInsertWidgets()
+
+    def ShowValuesWidgets(self, root):
+        pass
+    
+    def RemoveValuesWidgets(self, root):
+        pass
+
+#----------------create and place widgets----------------------------------------------------------------------------------------------------------------------------
+
+#----------------window and interface changes and confoguration-------------------------------------------------------------------------------------------------------
+
+
+    #configure  
     def configureWindow(self, root):
         root.title("Interface v2")
         root.geometry(f"{self.windowx}x{self.windowy}")
         root.resizable(False, False)
 
+    #atualizar a tela 
+    def update_windowsChange(self, change):
+            self.command_text.config(text=change)
+
+#----------------window and interface changes and confoguration-------------------------------------------------------------------------------------------------------
+
+#----------------place for the insert widgets-------------------------------------------------------------------------------------------------------------------------
+
     #list of widgets to create
-    def createWidgets(self, root):
+    def createInsertWidgets(self, root):
         #labels
         self.menu = tk.Label(text="nome", bg="lightgray", fg="black", bd=3, relief="solid")
         self.input_dados_text = tk.Label(text="add dados abaixo", fg="black", bg="lightgray", bd=2, relief="solid")
@@ -77,7 +156,7 @@ class app:
         self.parcelas_combobox.set("selecione")
 
     #list of widget positions
-    def placeWidgets(self):
+    def placeInsertWidgets(self):
         self.menu.place(x=0, y=0, width=self.windowx - 245, height=50)
         self.input_dados_text.place(x=10, y=60, width=100 ,height=20)
         self.input_dados.place(x=10, y=85 )
@@ -97,9 +176,10 @@ class app:
         self.command_text.place(x = 758 , y = 10)
         self.button_send.place(x = 125, y = 340)
 
-    #atualizar a tela 
-    def update_windowsChange(self, change):
-            self.command_text.config(text=change)
+#----------------place for the insert widgets-------------------------------------------------------------------------------------------------------------------------
+
+#----------------aplication funcions----------------------------------------------------------------------------------------------------------------------------------
+
 
     #id, nome, nf, dataEmissao, dataVencimento, tipo_produto
     def enter_values(self):
@@ -114,6 +194,10 @@ class app:
         print(values)
         self.update_windowsChange(values)
         conection.insertAll(self.db, values[0], values[1], values[2], values[3], values[4], values[5], values[6])
+
+#----------------aplication funcions----------------------------------------------------------------------------------------------------------------------------------
+
+#----------------final of the class app----------------------------------------------------------------------------------------------------------------------------------
         
 root = tk.Tk()
 app = app(root)

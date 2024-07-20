@@ -73,7 +73,7 @@ def showValues(db):
         print(i)
     conn.close()
 
-#insere dados na sequencia =database(db) nome, nf, dataEmissao, dataVencimento, tipo_produto
+#insere dados na sequencia database(db) nome, nf, dataEmissao, dataVencimento, tipo_produto, parcelas e forma de pagamento
 def insertAll(db, a, b, c, d, e, f, g):
     try:
         table = return_tables(db)
