@@ -3,6 +3,7 @@ from tkcalendar import DateEntry
 from tkinter import ttk
 import conection
 import os
+import sqlite3
 
 #----------------------coisas de fora----------------------------------------------------------------------------------------------------------------------------
 
@@ -13,9 +14,11 @@ def leitor(arquivo):
     for i in arquivo:
         items.append(i)
     return items
+
 #----------------------coisas de fora----------------------------------------------------------------------------------------------------------------------------
 
-#------------------------------init----------------------------------------------------------------------------------------------------------------------------
+#------------------------------init------------------------------------------------------------------------------------------------------------------------------
+
 class app:
     def __init__(self, root):
         #listas
@@ -33,14 +36,11 @@ class app:
         self.y = 50
         self.height = 50
         self.width = 250
-
         #inicialize the widgets
         self.InsertWidgets(root)
         self.createMenu_bar(root)
-        if os.path.exists("main.db"):
-            pass
-        else:
-            self.db = conection.db_create("main")
+        self.checkDatabase()
+
 #------------------------------init----------------------------------------------------------------------------------------------------------------------------
 
 #----------------menu bar functions----------------------------------------------------------------------------------------------------------------------------
@@ -104,6 +104,9 @@ class app:
     def RemoveValuesWidgets(self, root):
         pass
 
+    def whitescreen(self, root):
+        pass
+
 #----------------create and place widgets----------------------------------------------------------------------------------------------------------------------------
 
 #----------------window and interface changes and confoguration-------------------------------------------------------------------------------------------------------
@@ -123,7 +126,7 @@ class app:
 
 #----------------place for the insert widgets-------------------------------------------------------------------------------------------------------------------------
 
-    #list of widgets to create
+    #list of "isertwidgets" to create
     def createInsertWidgets(self, root):
         #labels
         self.menu = tk.Label(text="nome", bg="lightgray", fg="black", bd=3, relief="solid")
@@ -154,7 +157,7 @@ class app:
         self.combo.set("Selecione") 
         self.parcelas_combobox.set("selecione")
 
-    #list of widget positions
+    #list of "insertwidget" positions
     def placeInsertWidgets(self):
         self.menu.place(x=0, y=0, width=self.windowx - 245, height=50)
         self.input_dados_text.place(x=10, y=60, width=100 ,height=20)
@@ -175,12 +178,23 @@ class app:
         self.command_text.place(x = 758 , y = 10)
         self.button_send.place(x = 125, y = 340)
 
+    #list of "Showvalues"widgets to create
+    def createShowValues(self, root):
+        pass
+
+    #list of showvalues"widgets positions
+
 #----------------place for the insert widgets-------------------------------------------------------------------------------------------------------------------------
 
 #----------------aplication funcions----------------------------------------------------------------------------------------------------------------------------------
+    
+    def checkDatabase(self):
+        if os.path.exists("main.db"):
+            self.db = "main.db"
+        else:
+            self.db = conection.db_create("main")
 
-
-    #id, nome, nf, dataEmissao, dataVencimento, tipo_produto
+    #id, nome, nf, dataEmissao, dataVencimento, tipo_produto, parcelas, forma de pagamento
     def enter_values(self):
         nomeValor = self.input_dados.get()
         dataEmissao = self.data_entryD.get_date()
@@ -193,6 +207,9 @@ class app:
         print(values)
         self.update_windowsChange(values)
         conection.insertAll(self.db, values[0], values[1], values[2], values[3], values[4], values[5], values[6])
+        return values
+
+
 #----------------aplication funcions-------------------------------------------------------------------------------------------------------------------------------------
 
 #----------------final of the class app----------------------------------------------------------------------------------------------------------------------------------

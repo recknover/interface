@@ -87,9 +87,9 @@ def insertAll(db, a, b, c, d, e, f, g):
         conn.commit()
         conn.close()
     except Error as e:
-        print(e)
+        print(f"{e},erro de sqlite")
     except Exception as e:
-        print(e)
+        print(f"{e},erro de codigo")
 
 #atualiza dados sequencia db = banco para acesso, param1 = coluna; param2 = valor; param3 = id
 def updateData(db, param1, param2, param3):
