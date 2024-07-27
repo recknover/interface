@@ -51,6 +51,7 @@ class app:
         self.createFileMenu(root)
         self.createEditMenu()
         self.createHelpMenu()
+        self.whitescreenMenu()
         # coloca na tela
         root.config(menu=self.menubar)
 
@@ -64,11 +65,11 @@ class app:
 
     def createEditMenu(self):
         self.edit_menu = tk.Menu(self.menubar, tearoff=0)
-        self.edit_menu.add_command(label="return values", command='#')
+        self.edit_menu.add_command(label="return values", command=self.insertShowValues)
         self.edit_menu.add_separator()
         self.edit_menu.add_command(label="delete values", command='#')
         self.edit_menu.add_separator()
-        self.edit_menu.add_command(label="insert values", command='#')
+        self.edit_menu.add_command(label="insert values", command=self.placeInsertWidgets)
         # adiciona na tela, qualquer coisa nova colocar na parte de cima
         self.menubar.add_cascade(label="Windows", menu=self.edit_menu)
 
@@ -78,6 +79,11 @@ class app:
         # adiciona na tela, qualquer coisa nova colocar na parte de cima
         self.menubar.add_cascade(label="Help", menu=self.help_menu)
 
+    def whitescreenMenu(self):
+        self.whiteMenu = tk.Menu(self.menubar, tearoff=0)
+        self.whiteMenu.add_command(label="clear screen", command=self.whitescreen)
+        # adiciona na tela, qualquer coisa nova colocar na parte de cima
+        self.menubar.add_cascade(label="Clear", menu=self.whiteMenu)
 
 #----------------menu bar functions----------------------------------------------------------------------------------------------------------------------------------
 
@@ -94,6 +100,7 @@ class app:
         #deletar dados
         (label pra mostrar os dados)(entry pra selecionar id pra ser deletado)
         '''
+        
     def InsertWidgets(self, root):
         self.createInsertWidgets(root)
         self.placeInsertWidgets()
@@ -104,13 +111,9 @@ class app:
     def RemoveValuesWidgets(self, root):
         pass
 
-    def whitescreen(self, root):
-        pass
-
 #----------------create and place widgets----------------------------------------------------------------------------------------------------------------------------
 
 #----------------window and interface changes and confoguration-------------------------------------------------------------------------------------------------------
-
 
     #configure  
     def configureWindow(self, root):
@@ -178,15 +181,21 @@ class app:
         self.command_text.place(x = 758 , y = 10)
         self.button_send.place(x = 125, y = 340)
 
-    #list of "Showvalues"widgets to create
-    def createShowValues(self, root):
-        pass
-
-    #list of showvalues"widgets positions
-
 #----------------place for the insert widgets-------------------------------------------------------------------------------------------------------------------------
 
-#----------------aplication funcions----------------------------------------------------------------------------------------------------------------------------------
+#----------------place for the return values widgets------------------------------------------------------------------------------------------------------------------
+
+    #list of "Showvalues"widgets to create
+    def createShowValues(self, root):
+        self.showValuesbutton = tk.Button(text="return", command="#")
+
+    #list of showvalues"widgets positions
+    def insertShowValues(self):
+        self.showValuesbutton.place(x=50, y=50, width=120)
+
+#----------------place for the return values widgets------------------------------------------------------------------------------------------------------------------
+
+#----------------aplication functions----------------------------------------------------------------------------------------------------------------------------------
     
     def checkDatabase(self):
         if os.path.exists("main.db"):
@@ -208,6 +217,12 @@ class app:
         self.update_windowsChange(values)
         conection.insertAll(self.db, values[0], values[1], values[2], values[3], values[4], values[5], values[6])
         return values
+
+    def whitescreen(self):
+        widgets = [self.menu,self.input_dados_text,self.data_textD,self.data_textE,self.texto_seletor,self.nf_entry_text,self.payment_label,self.parcelas_text,self.command_window,
+                   self.command_text,self.texto_combo,self.input_dados,self.nf_entry,self.button_send,self.data_entryE,self.data_entryD,self.combo,self.parcelas_combobox,self.payment_selector]
+        for widget in widgets:
+            widget.place_forget()
 
 
 #----------------aplication funcions-------------------------------------------------------------------------------------------------------------------------------------
