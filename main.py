@@ -38,6 +38,7 @@ class app:
         self.width = 250
         #inicialize the widgets
         self.InsertWidgets(root)
+        self.ShowValuesWidgets(root)
         self.createMenu_bar(root)
         self.checkDatabase()
 
@@ -54,6 +55,8 @@ class app:
         self.whitescreenMenu()
         # coloca na tela
         root.config(menu=self.menubar)
+        root.update_idletasks()
+        
 
     def createFileMenu(self, root):
         self.file_menu = tk.Menu(self.menubar, tearoff=0)
@@ -65,7 +68,7 @@ class app:
 
     def createEditMenu(self):
         self.edit_menu = tk.Menu(self.menubar, tearoff=0)
-        self.edit_menu.add_command(label="return values", command=self.insertShowValues)
+        self.edit_menu.add_command(label="return values", command=self.placeShowValues)
         self.edit_menu.add_separator()
         self.edit_menu.add_command(label="delete values", command='#')
         self.edit_menu.add_separator()
@@ -102,11 +105,14 @@ class app:
         '''
         
     def InsertWidgets(self, root):
+        self.whitescreen()
         self.createInsertWidgets(root)
         self.placeInsertWidgets()
 
     def ShowValuesWidgets(self, root):
-        pass
+        self.whitescreen()
+        self.createShowValues(root)
+        self.placeShowValues()
     
     def RemoveValuesWidgets(self, root):
         pass
@@ -159,6 +165,7 @@ class app:
         self.payment_selector.set("selecione")  
         self.combo.set("Selecione") 
         self.parcelas_combobox.set("selecione")
+        root.update_idletasks()
 
     #list of "insertwidget" positions
     def placeInsertWidgets(self):
@@ -190,7 +197,7 @@ class app:
         self.showValuesbutton = tk.Button(text="return", command="#")
 
     #list of showvalues"widgets positions
-    def insertShowValues(self):
+    def placeShowValues(self):
         self.showValuesbutton.place(x=50, y=50, width=120)
 
 #----------------place for the return values widgets------------------------------------------------------------------------------------------------------------------
@@ -219,8 +226,10 @@ class app:
         return values
 
     def whitescreen(self):
-        widgets = [self.menu,self.input_dados_text,self.data_textD,self.data_textE,self.texto_seletor,self.nf_entry_text,self.payment_label,self.parcelas_text,self.command_window,
-                   self.command_text,self.texto_combo,self.input_dados,self.nf_entry,self.button_send,self.data_entryE,self.data_entryD,self.combo,self.parcelas_combobox,self.payment_selector]
+        widgets = [self.menu,self.input_dados_text,self.data_textD,self.data_textE,self.texto_seletor,
+                   self.nf_entry_text,self.payment_label,self.parcelas_text,self.command_window,
+                   self.command_text,self.texto_combo,self.input_dados,self.nf_entry,self.button_send,
+                   self.data_entryE,self.data_entryD,self.combo,self.parcelas_combobox,self.payment_selector]
         for widget in widgets:
             widget.place_forget()
 
