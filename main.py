@@ -39,8 +39,8 @@ class app:
         #inicialize the widgets
         self.InsertWidgets(root)
         self.ShowValuesWidgets(root)
-        self.createMenu_bar(root)
         self.checkDatabase()
+        self.createMenu_bar(root)
 
 #------------------------------init----------------------------------------------------------------------------------------------------------------------------
 
@@ -226,12 +226,16 @@ class app:
         return values
 
     def whitescreen(self):
-        widgets = [self.menu,self.input_dados_text,self.data_textD,self.data_textE,self.texto_seletor,
-                   self.nf_entry_text,self.payment_label,self.parcelas_text,self.command_window,
-                   self.command_text,self.texto_combo,self.input_dados,self.nf_entry,self.button_send,
-                   self.data_entryE,self.data_entryD,self.combo,self.parcelas_combobox,self.payment_selector]
-        for widget in widgets:
-            widget.place_forget()
+        try:
+            widgets = [self.menu,self.input_dados_text,self.data_textD,self.data_textE,self.texto_seletor,
+                self.nf_entry_text,self.payment_label,self.parcelas_text,self.command_window,
+                self.command_text,self.texto_combo,self.input_dados,self.nf_entry,self.button_send,
+                self.data_entryE,self.data_entryD,self.combo,self.parcelas_combobox,self.payment_selector]
+            for widget in widgets:
+                widget.place_forget()
+        except AttributeError:
+            pass
+
 
 
 #----------------aplication funcions-------------------------------------------------------------------------------------------------------------------------------------
