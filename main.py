@@ -36,12 +36,13 @@ class app:
         self.y = 50
         self.height = 50
         self.width = 250
+
         #inicialize the widgets
         self.InsertWidgets(root)
         self.ShowValuesWidgets(root)
         self.checkDatabase()
         self.createMenu_bar(root)
-
+        self.whitescreen()
 #------------------------------init----------------------------------------------------------------------------------------------------------------------------
 
 #----------------menu bar functions----------------------------------------------------------------------------------------------------------------------------
@@ -68,11 +69,11 @@ class app:
 
     def createEditMenu(self):
         self.edit_menu = tk.Menu(self.menubar, tearoff=0)
-        self.edit_menu.add_command(label="return values", command=self.placeShowValues)
+        self.edit_menu.add_command(label="return values", command=self.MenuShow)
         self.edit_menu.add_separator()
         self.edit_menu.add_command(label="delete values", command='#')
         self.edit_menu.add_separator()
-        self.edit_menu.add_command(label="insert values", command=self.placeInsertWidgets)
+        self.edit_menu.add_command(label="insert values", command=self.MenuInsert)
         # adiciona na tela, qualquer coisa nova colocar na parte de cima
         self.menubar.add_cascade(label="Windows", menu=self.edit_menu)
 
@@ -116,6 +117,16 @@ class app:
     
     def RemoveValuesWidgets(self, root):
         pass
+
+    #menu insert func
+    def MenuInsert(self):
+        self.whitescreen()
+        self.placeInsertWidgets()
+
+    #menu show func
+    def MenuShow(self):
+        self.whitescreen()
+        self.placeShowValues()
 
 #----------------create and place widgets----------------------------------------------------------------------------------------------------------------------------
 
@@ -194,10 +205,26 @@ class app:
 
     #list of "Showvalues"widgets to create
     def createShowValues(self, root):
+        #button
         self.showValuesbutton = tk.Button(text="return", command="#")
+        #labels
+        self.name_nf_filter_label = tk.Label(text="nome ou nf")
+        self.date_filter_label = tk.Label(text="data vencimento")
+        self.type_filter_label = tk.Label(text="tipo")
+        self.screen = tk.Label(bg="black")
+        #datas
+        self.date_filter = DateEntry(root, width=12, background='darkblue', foreground='white', borderwidth=2, bg="red")
+        #combobox
+        self.name_nf_filter = ttk.Combobox(root, values="nome, nf", state="readonly") 
+        self.type_filter = ttk.Combobox(root, values=self.items, state="readonly")
+        #comboboxes sets
+        self.name_nf_filter.set("selecione")  
+        self.type_filter.set("selecione")  
+        root.update_idletasks()
 
     #list of showvalues"widgets positions
     def placeShowValues(self):
+        self.screen.place(x=2, y=100, width=996, height=298)
         self.showValuesbutton.place(x=50, y=50, width=120)
 
 #----------------place for the return values widgets------------------------------------------------------------------------------------------------------------------
@@ -227,14 +254,25 @@ class app:
 
     def whitescreen(self):
         try:
+            for attr_name in dir(self):
+                attr = getattr(self, attr_name)
+            if isinstance(attr, (tk.Widget, ttk.Widget)):
+                attr.place_forget()
+        except AttributeError:
+            pass    
+
+''' def whitescreen(self):
+        try:
             widgets = [self.menu,self.input_dados_text,self.data_textD,self.data_textE,self.texto_seletor,
                 self.nf_entry_text,self.payment_label,self.parcelas_text,self.command_window,
                 self.command_text,self.texto_combo,self.input_dados,self.nf_entry,self.button_send,
-                self.data_entryE,self.data_entryD,self.combo,self.parcelas_combobox,self.payment_selector]
+                self.data_entryE,self.data_entryD,self.combo,self.parcelas_combobox,self.payment_selector, self.showValuesbutton]
             for widget in widgets:
                 widget.place_forget()
         except AttributeError:
             pass
+'''
+
 
 
 
