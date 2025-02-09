@@ -209,23 +209,38 @@ class app:
         self.showValuesbutton = tk.Button(text="return", command="#")
         #labels
         self.name_nf_filter_label = tk.Label(text="nome ou nf")
-        self.date_filter_label = tk.Label(text="data vencimento")
+        self.date_filter_expiration_label = tk.Label(text="data vencimento")
+        self.date_filter_emission_label = tk.Label(text="data emissao")
         self.type_filter_label = tk.Label(text="tipo")
         self.screen = tk.Label(bg="black")
         #datas
-        self.date_filter = DateEntry(root, width=12, background='darkblue', foreground='white', borderwidth=2, bg="red")
+        self.date_filter_emission = DateEntry(root, width=12, background='darkblue', foreground='white', borderwidth=2, bg="red")
+        self.date_filter_expiration = DateEntry(root, width=12, background='darkblue', foreground='white', borderwidth=2, bg="red")
         #combobox
-        self.name_nf_filter = ttk.Combobox(root, values="nome, nf", state="readonly") 
+        self.name_nf_filter = ttk.Combobox(root, values="nome nf", state="readonly") 
         self.type_filter = ttk.Combobox(root, values=self.items, state="readonly")
         #comboboxes sets
         self.name_nf_filter.set("selecione")  
         self.type_filter.set("selecione")  
+        #entrys
+        self.name_nf_entry = tk.Entry(text="placeholder", width=100, bd=2, relief="solid")
         root.update_idletasks()
 
     #list of showvalues"widgets positions
     def placeShowValues(self):
         self.screen.place(x=2, y=100, width=996, height=298)
         self.showValuesbutton.place(x=50, y=50, width=120)
+        self.name_nf_entry.place(x=190, y=53, width=120)
+        self.name_nf_filter.place(x=330, y=53, width=120)
+        self.type_filter.place(x=480,y=53, width=120)
+        self.date_filter_emission.place(x=620, y=53, width=120)
+        self.date_filter_expiration.place(x=760, y=53, width=120)
+        self.name_nf_filter_label.place(x=190, y=30, width=240)
+        self.type_filter_label.place(x=480, y=30, width=120)
+        self.date_filter_emission_label.place(x=620, y=30, width=120)
+        self.date_filter_expiration_label.place(x=760, y=30, width=120)
+
+
 
 #----------------place for the return values widgets------------------------------------------------------------------------------------------------------------------
 
@@ -256,8 +271,8 @@ class app:
         try:
             for attr_name in dir(self):
                 attr = getattr(self, attr_name)
-            if isinstance(attr, (tk.Widget, ttk.Widget)):
-                attr.place_forget()
+                if isinstance(attr, (tk.Widget, ttk.Widget)):
+                    attr.place_forget()
         except AttributeError:
             pass    
 
