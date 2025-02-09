@@ -206,12 +206,12 @@ class app:
     #list of "Showvalues"widgets to create
     def createShowValues(self, root):
         #button
-        self.showValuesbutton = tk.Button(text="return", command="#")
+        self.showValuesbutton = tk.Button(text="return", command="#", bd=2, relief="solid")
         #labels
-        self.name_nf_filter_label = tk.Label(text="nome ou nf")
-        self.date_filter_expiration_label = tk.Label(text="data vencimento")
-        self.date_filter_emission_label = tk.Label(text="data emissao")
-        self.type_filter_label = tk.Label(text="tipo")
+        self.name_nf_filter_label = tk.Label(text="nome ou nf", bd=2, relief="solid")
+        self.date_filter_expiration_label = tk.Label(text="data vencimento", bd=2, relief="solid")
+        self.date_filter_emission_label = tk.Label(text="data emissao", bd=2, relief="solid")
+        self.type_filter_label = tk.Label(text="tipo", bd=2, relief="solid")
         self.screen = tk.Label(bg="black")
         #datas
         self.date_filter_emission = DateEntry(root, width=12, background='darkblue', foreground='white', borderwidth=2, bg="red")
@@ -235,7 +235,7 @@ class app:
         self.type_filter.place(x=480,y=53, width=120)
         self.date_filter_emission.place(x=620, y=53, width=120)
         self.date_filter_expiration.place(x=760, y=53, width=120)
-        self.name_nf_filter_label.place(x=190, y=30, width=240)
+        self.name_nf_filter_label.place(x=190, y=30, width=260)
         self.type_filter_label.place(x=480, y=30, width=120)
         self.date_filter_emission_label.place(x=620, y=30, width=120)
         self.date_filter_expiration_label.place(x=760, y=30, width=120)
