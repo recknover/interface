@@ -139,8 +139,10 @@ class app:
         root.resizable(False, False)
 
     #atualizar a tela 
-    def update_windowsChange(self, change):
-            self.command_text.config(text=change)
+    def update_windowsChange(self, name, change):
+        widget = getattr(self, name, None)  # Pega o atributo pelo nome
+        if isinstance(widget, (tk.Widget, ttk.Widget)):  # Verifica se é um widget do Tkinter.
+            widget.config(text=change)  # Atualiza o texto
 
 #----------------window and interface changes and confoguration-------------------------------------------------------------------------------------------------------
 
@@ -195,7 +197,7 @@ class app:
         self.payment_selector.place(x=200, y=240, width=120)
         self.parcelas_text.place(x=200, y=280, width=120)
         self.parcelas_combobox.place(x=200, y=305, width=120)
-        self.command_window.place(x = 758, y = 3, height=395, width=240)
+        self.command_window.place(x = 758, y = 1, height=350, width=240)
         self.command_text.place(x = 758 , y = 10)
         self.button_send.place(x = 125, y = 340)
 
@@ -206,13 +208,14 @@ class app:
     #list of "Showvalues"widgets to create
     def createShowValues(self, root):
         #button
-        self.showValuesbutton = tk.Button(text="return", command="#", bd=2, relief="solid")
+        self.showValuesbutton = tk.Button(text="return", command=self.returnValues, bd=2, relief="solid")
         #labels
         self.name_nf_filter_label = tk.Label(text="nome ou nf", bd=2, relief="solid")
         self.date_filter_expiration_label = tk.Label(text="data vencimento", bd=2, relief="solid")
         self.date_filter_emission_label = tk.Label(text="data emissao", bd=2, relief="solid")
         self.type_filter_label = tk.Label(text="tipo", bd=2, relief="solid")
         self.screen = tk.Label(bg="black")
+        self.dados_text = tk.Label(text="loading", bg="black", fg="green")
         #datas
         self.date_filter_emission = DateEntry(root, width=12, background='darkblue', foreground='white', borderwidth=2, bg="red")
         self.date_filter_expiration = DateEntry(root, width=12, background='darkblue', foreground='white', borderwidth=2, bg="red")
@@ -229,7 +232,7 @@ class app:
     #list of showvalues"widgets positions
     def placeShowValues(self):
         self.screen.place(x=2, y=100, width=996, height=298)
-        self.showValuesbutton.place(x=50, y=50, width=120)
+        self.showValuesbutton.place(x=50, y=22, width=60, height=60)
         self.name_nf_entry.place(x=190, y=53, width=120)
         self.name_nf_filter.place(x=330, y=53, width=120)
         self.type_filter.place(x=480,y=53, width=120)
@@ -239,6 +242,7 @@ class app:
         self.type_filter_label.place(x=480, y=30, width=120)
         self.date_filter_emission_label.place(x=620, y=30, width=120)
         self.date_filter_expiration_label.place(x=760, y=30, width=120)
+        self.dados_text.place(x=5, y=110)
 
 
 
@@ -263,7 +267,7 @@ class app:
         parcelas = self.parcelas_combobox.get()
         values = [nomeValor, dataEmissao, dataVencimento, seletor, nf, formaDePagamento, parcelas]
         print(values)
-        self.update_windowsChange(values)
+        self.update_windowsChange("command_text", values)
         conection.insertAll(self.db, values[0], values[1], values[2], values[3], values[4], values[5], values[6])
         return values
 
@@ -276,17 +280,12 @@ class app:
         except AttributeError:
             pass    
 
-''' def whitescreen(self):
-        try:
-            widgets = [self.menu,self.input_dados_text,self.data_textD,self.data_textE,self.texto_seletor,
-                self.nf_entry_text,self.payment_label,self.parcelas_text,self.command_window,
-                self.command_text,self.texto_combo,self.input_dados,self.nf_entry,self.button_send,
-                self.data_entryE,self.data_entryD,self.combo,self.parcelas_combobox,self.payment_selector, self.showValuesbutton]
-            for widget in widgets:
-                widget.place_forget()
-        except AttributeError:
-            pass
-'''
+    def returnValues(self):
+        data = conection.showValues(self.db)
+        for i in data:
+            a = tk.Label()
+            self.update_windowsChange("dados_text", i)
+
 
 
 

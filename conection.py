@@ -72,6 +72,7 @@ def showValues(db):
     for i in raw:
         print(i)
     conn.close()
+    return raw
 
 #insere dados na sequencia database(db) nome, nf, dataEmissao, dataVencimento, tipo_produto, parcelas e forma de pagamento
 def insertAll(db, a, b, c, d, e, f, g):
