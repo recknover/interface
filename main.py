@@ -25,6 +25,7 @@ class app:
         self.payments = [1, 2, 3 ,4 ]
         self.items = leitor("items.txt")
         self.parcelas = ["1x 7d", "1x 14d", "1x 21d", "2x 14/21d", "2x 14/21d", "3x 7/14/21d"]
+        self.labels_list = []
        
         # Create the main window
         self.windowx = 1000
@@ -160,7 +161,7 @@ class app:
         self.payment_label = tk.Label(text="forma de pagamento", fg="black", bd=2, relief="solid", bg="lightgray")
         self.parcelas_text = tk.Label(text="parcelas", fg="black", bg="lightgray", bd=2, relief="solid")
         self.command_window = tk.Label(bg="black")
-        self.command_text = tk.Label(text="Loading", bg="black", fg="green")
+        self.command_text = tk.Label(text="Loading", bg="black", fg="green", justify="left", wraplength=50)
         self.texto_combo = tk.Label(text="seletor", fg="black", bd=2, relief="solid", bg="lightgray")
         #entrys
         self.input_dados = tk.Entry(text="placeholder", width=100, bd=2, relief="solid")
@@ -214,8 +215,8 @@ class app:
         self.date_filter_expiration_label = tk.Label(text="data vencimento", bd=2, relief="solid")
         self.date_filter_emission_label = tk.Label(text="data emissao", bd=2, relief="solid")
         self.type_filter_label = tk.Label(text="tipo", bd=2, relief="solid")
-        self.screen = tk.Label(bg="black")
-        self.dados_text = tk.Label(text="loading", bg="black", fg="green")
+        self.screen = tk.Frame(bg="black")
+        self.dados_text = tk.Label(text="loading", bg="black", fg="green", justify="left", wraplength=600)
         #datas
         self.date_filter_emission = DateEntry(root, width=12, background='darkblue', foreground='white', borderwidth=2, bg="red")
         self.date_filter_expiration = DateEntry(root, width=12, background='darkblue', foreground='white', borderwidth=2, bg="red")
@@ -249,7 +250,7 @@ class app:
 #----------------place for the return values widgets------------------------------------------------------------------------------------------------------------------
 
 #----------------aplication functions----------------------------------------------------------------------------------------------------------------------------------
-    
+    #ve se o banco de dados existe e cria caso nao
     def checkDatabase(self):
         if os.path.exists("main.db"):
             self.db = "main.db"
@@ -281,11 +282,31 @@ class app:
             pass    
 
     def returnValues(self):
+        #conectar no banco de dados
         data = conection.showValues(self.db)
-        for i in data:
-            a = tk.Label()
-            self.update_windowsChange("dados_text", i)
+        
+        #criacao e reset de labels
 
+        for label in self.labels_list:
+            label.destroy()
+        self.labels_list.clear()
+
+        if not data:
+            self.dados_text.config(text="dados não encontrados")
+            self.labels_list.append(self.dados_text)
+
+        y_offset = self.dados_text.winfo_y()
+        x = self.dados_text.winfo_x()
+        for row in data:
+            text = f"ID: {row[0]}, Nome: {row[1]}, NF: {row[2]}, Vencimento: {row[4]}"
+            label = tk.Label(self.screen, text=text, anchor="w", bg="black", fg="green", wraplength=400)
+            label.place(x=x , y=y_offset, width=None) 
+
+            self.labels_list.append(label)
+            y_offset =+ 5
+
+        #remover label primaria
+        self.dados_text.destroy()
 
 
 
